@@ -112,8 +112,12 @@ export class UrlShortenerService {
         throw new NotFoundException('Short URL has expired');
       }
 
+      this.logger.log('Updating last accessed time.');
+
       shortUrl.lastAccessedAt = new Date();
       await shortUrl.save();
+
+      this.logger.log('Short URL accessed.');
 
       return shortUrl.originalUrl;
     } catch (error) {

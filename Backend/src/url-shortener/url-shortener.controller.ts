@@ -11,6 +11,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  Logger,
 } from '@nestjs/common';
 import { UrlShortenerService } from './url-shortener.service';
 import { Response } from 'express';
@@ -18,6 +19,7 @@ import { CreateUrlDto, UrlResponseDto } from './dto/url-shortener.dto';
 
 @Controller('url-shortener')
 export class UrlShortenerController {
+  private readonly logger = new Logger(UrlShortenerController.name);
   constructor(private readonly urlShortener: UrlShortenerService) {}
 
   @Post()
@@ -69,6 +71,7 @@ export class UrlShortenerController {
   ) {
     try {
       const originalUrl = await this.urlShortener.getOriginalUrl(shortCode);
+      this.logger.log(`Redirecting to original URL: ${originalUrl}`);
       return res.redirect(originalUrl);
     } catch (error) {
       throw new HttpException(
