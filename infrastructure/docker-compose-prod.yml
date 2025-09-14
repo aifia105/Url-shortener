@@ -1,0 +1,36 @@
+services:
+  app:
+    container_name: url-shortener-app-prod
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        NODE_ENV: production
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+    networks:
+      - app-network
+    depends_on:
+      - mongo
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:7
+    container_name: url-shortener-mongodb-prod
+    networks:
+      - app-network
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=url_shortener_prod
+    restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
