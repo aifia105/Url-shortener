@@ -7,13 +7,12 @@ services:
       args:
         NODE_ENV: development
     ports:
-      - "5173:5173"
+      - "5173:80"
     environment:
       - NODE_ENV=development
     volumes:
-      - .:/usr/src/Frontend
-      - /usr/src/Frontend/node_modules
-    command: npm run dev
+      - ../Frontend:/app
+      - /app/node_modules
     networks:
       - app-network
     depends_on:
@@ -30,7 +29,7 @@ services:
     environment:
       - NODE_ENV=development
     volumes:
-      - .:/usr/src/Backend
+      - ../Backend:/usr/src/Backend
       - /usr/src/Backend/node_modules
     command: npm run start:dev
     networks:
