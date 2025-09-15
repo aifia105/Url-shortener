@@ -78,9 +78,14 @@ function App() {
           <span className="text-base text-gray-600 font-medium">
             Shortened URL:
           </span>
-          <link className="text-lg text-blue-600 break-all">
+          <a
+            href={shortenedUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-lg text-blue-600 break-all hover:text-blue-800 underline transition"
+          >
             {shortenedUrl}
-          </link>
+          </a>
           {expirationDate && (
             <>
               <span className="text-sm text-gray-500 font-medium">

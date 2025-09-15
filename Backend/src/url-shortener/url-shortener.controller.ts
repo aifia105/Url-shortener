@@ -6,15 +6,10 @@ import {
   Param,
   Post,
   Get,
-  Put,
-  Res,
-  UsePipes,
-  ValidationPipe,
   Query,
   Logger,
 } from '@nestjs/common';
 import { UrlShortenerService } from './url-shortener.service';
-import { Response } from 'express';
 import { CreateUrlDto, UrlResponseDto } from './dto/url-shortener.dto';
 
 @Controller('url-shortener')
@@ -50,29 +45,6 @@ export class UrlShortenerController {
     try {
       const urlDetails = await this.urlShortener.getUrlDetails(shortCode);
       return urlDetails;
-    } catch (error) {
-      throw new HttpException(
-        {
-          status: HttpStatus.NOT_FOUND,
-          error: error.message,
-        },
-        HttpStatus.NOT_FOUND,
-        {
-          cause: error,
-        },
-      );
-    }
-  }
-
-  @Get('s/:shortCode')
-  async redirectToOriginalUrl(
-    @Param('shortCode') shortCode: string,
-    @Res() res: Response,
-  ) {
-    try {
-      const originalUrl = await this.urlShortener.getOriginalUrl(shortCode);
-      this.logger.log(`Redirecting to original URL: ${originalUrl}`);
-      return res.redirect(originalUrl);
     } catch (error) {
       throw new HttpException(
         {

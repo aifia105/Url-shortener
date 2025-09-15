@@ -20,5 +20,6 @@ import {
   ],
   providers: [UrlShortenerService],
   controllers: [UrlShortenerController],
+  exports: [UrlShortenerService],
 })
 export class UrlShortenerModule {}
